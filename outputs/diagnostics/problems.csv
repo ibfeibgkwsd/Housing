@@ -1,0 +1,42 @@
+cbsa,name,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2021,2022,2023,2024
+10380,"Aguadilla, PR Metro Area",True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True
+11300,"Anderson, IN Metro Area",True,True,True,True,True,True,True,True,False,False,False,False,False,False,False,False,False,False,False
+11340,"Anderson, SC Metro Area",True,True,True,True,True,True,True,True,False,False,False,False,False,False,False,False,False,False,False
+11640,"Arecibo, PR Metro Area",False,False,False,False,False,False,False,False,True,True,True,True,True,True,True,True,True,True,True
+14060,"Bloomington-Normal, IL Metro Area",True,True,True,True,True,True,True,True,False,False,False,False,False,False,False,False,False,False,False
+14100,"Bloomsburg-Berwick, PA Micro Area",True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True
+14600,"Bradenton-Sarasota-Venice, FL Metro Area",False,False,False,True,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False
+15680,"California-Lexington Park, MD Metro Area",False,False,False,False,False,False,False,False,True,True,True,True,True,True,True,True,True,False,False
+16060,"Carbondale-Marion, IL Metro Area",False,False,False,False,False,False,False,False,True,True,True,True,True,True,True,True,True,False,False
+17460,"Cleveland-Elyria, OH Metro Area",True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,False,False
+19060,"Cumberland, MD-WV Micro Area",True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True
+19180,"Danville, IL Micro Area",True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True
+19260,"Danville, VA Micro Area",True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True
+19380,"Dayton, OH Metro Area",True,True,True,True,True,True,True,True,True,True,True,True,True,True,False,False,False,False,False
+20580,"Eagle Pass, TX Metro Area",False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,True,True
+20700,"East Stroudsburg, PA Micro Area",True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True
+21940,"Fajardo, PR Metro Area",True,True,True,True,True,True,True,True,False,False,False,False,False,False,False,False,False,False,False
+23020,"Fort Walton Beach-Crestview-Destin, FL Metro Area",True,True,True,True,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False
+25020,"Guayama, PR Metro Area",True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True
+26100,"Holland-Grand Haven, MI Metro Area",True,True,True,True,True,True,True,True,False,False,False,False,False,False,False,False,False,False,False
+26180,"Honolulu, HI Metro Area",True,True,True,True,True,True,True,True,False,False,False,False,False,False,False,False,False,False,False
+29140,"Lafayette, IN Metro Area",True,True,True,True,True,True,True,True,False,False,False,False,False,False,False,False,False,False,False
+31100,"Los Angeles-Long Beach-Santa Ana, CA Metro Area",True,True,True,True,True,True,True,True,False,False,False,False,False,False,False,False,False,False,False
+31460,"Madera, CA Metro Area",True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,False,False
+32420,"Mayagüez, PR Metro Area",True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True
+35100,"New Bern, NC Micro Area",True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True
+36140,"Ocean City, NJ Metro Area",True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,False,False
+37380,"Palm Coast, FL Metro Area",True,True,True,True,True,True,True,True,False,False,False,False,False,False,False,False,False,False,False
+37700,"Pascagoula, MS Metro Area",True,True,True,True,True,True,True,True,False,False,False,False,False,False,False,False,False,False,False
+38220,"Pine Bluff, AR Micro Area",True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True
+38660,"Ponce, PR Metro Area",True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True
+39100,"Poughkeepsie-Newburgh-Middletown, NY Metro Area",True,True,True,True,True,True,True,True,False,False,False,False,False,False,True,True,True,False,False
+39140,"Prescott, AZ Metro Area",True,True,True,True,True,True,True,True,True,True,True,True,True,True,False,False,False,False,False
+41900,"San Germán, PR Metro Area",True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,False,False
+41980,"San Juan-Bayamón-Caguas, PR Metro Area",True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True
+42060,"Santa Barbara-Santa Maria-Goleta, CA Metro Area",True,True,True,True,True,True,True,True,False,False,False,False,False,False,False,False,False,False,False
+42260,"Sarasota-Bradenton-Venice, FL Metro Area",True,True,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False
+44600,"Steubenville-Weirton, OH-WV Metro Area",False,False,False,False,False,True,True,True,False,False,False,False,False,False,False,False,False,False,False
+45540,"The Villages, FL Metro Area",False,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,False,False
+46940,"Vero Beach, FL Metro Area",True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False
+49500,"Yauco, PR Metro Area",True,True,True,True,True,True,True,True,False,False,False,False,False,False,True,True,True,False,False

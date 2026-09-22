@@ -1,0 +1,17 @@
+# Local Python environment and interpreter caches
+.venv/
+__pycache__/
+*.py[cod]
+
+# Notebook and editor working files
+.ipynb_checkpoints/
+.vscode/
+
+# Archived source downloads retained locally for reproducibility, but too large
+# and redundant for the public project repository.
+archive/
+
+# Never publish local configuration or credentials.
+.env
+.env.*
+*.key

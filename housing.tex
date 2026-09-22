@@ -1,0 +1,131 @@
+\documentclass[11pt]{article}
+\usepackage{amscd,amssymb,amsthm,amsmath,graphicx, url, enumerate, tikz, enumitem, mathtools, booktabs, changepage, microtype, hyperref}
+
+\setlength{\emergencystretch}{2em}
+
+\begin{document}
+    \section{Introduction}
+        This project combines Federal Housing Finance Agency's (FHFA) All-Transactions House Price Index (HPI) with U.S. Census Bureau American Community Survey (ACS) metro data to answer questions about HPI growth, household growth, housing unit growth, housing type and vacancy.
+    \section{Data}
+        HPI data are obtained from FHFA House Price Index datasets \textit{All-Transactions Indexes: Metropolitan Statistical Areas and Divisions (Not Seasonally Adjusted)} and \textit{13 MSAs with Two or More Metropolitan Divisions (MSADs) (Not Seasonally Adjusted)}. ACS 1-year estimates are obtained from Census Detailed Tables B19001 (household income), B25001 (housing units), B25002 (occupancy status), B25024 (units in structure), and B25007 (tenure by age of householder) for 2005--2024, excluding 2020, when standard ACS 1-year estimates were not released. Although the ACS extraction includes both metropolitan and micropolitan statistical areas, the analysis is restricted to metropolitan statistical areas to match the FHFA HPI geography. For the 13 metropolitan areas subdivided into metropolitan divisions, the MSA HPI series is used in place of the division-level series to maintain geographic consistency with the ACS.
+    \section{Data Cleaning}
+    \subsection*{Annualization}
+        FHFA HPI numbers are specially constructed estimates from repeat transactions and refinance appraisals that are collected continuously with estimates given for each quarter. To obtain an annual HPI measure we just take the mean of these quarterly indexes. Annual HPI change is then calculated as the percentage change in annual HPI from the previous year.
+    \subsection*{2020 ACS Gap}
+        Standard ACS reporting was disrupted in 2020 by the COVID-19 pandemic. 2020 is therefore absent from the panel and growth rates are not calculated across 2019-2021.
+    \subsection*{2010 ACS Comparability Break}
+        In 2010, Census population controls switched and ACS changed with it. Calculations that would directly compare 2009 with 2010 are excluded, including any lagged variables that cover this transition.
+    \subsection*{CBSA Definition Changes}
+        Similarly, 2013, 2019 and 2023 are years in which Core Based Statistical Area (CBSA) definitions changed. Calculations that would directly compare these transition years are excluded, including any lagged variables that cover this transition.
+    \section{Results}
+    \subsection*{HPI and household growth}
+        A model containing year and metropolitan area fixed effects explains a large share of the variation in annual HPI growth with $R^2 = 0.658$ (\autoref{tab:hpi-model-fit}). Adding household growth, the difference between single-family detached housing share and the mean, and their interaction adds only $0.00459$ to $R^2$, or $R^2 = 0.663$. Household growth, measured as percentage change, is positively associated with HPI growth. The interaction effect is negative but is not significant at the 5\% level, providing limited evidence that the relationship between HPI growth and household growth is moderated by detached single-family housing share (\autoref{tab:hpi-fixed-effects}). \\
+        Detached single-family housing share is likely a crude proxy for supply constraints. It does not directly measure local zoning and construction policy, the amount of available land or elasticity of supply. It only measures the composition of existing stock. A negative interaction coefficient, for instance, could capture many aspects of supply and demand dynamics. Metros with larger shares of detached single family housing may be more spatially disperse, reducing the effect of demand on even more local prices, while simultaneously having a greater capacity for future development and construction, to mention nothing of potential policy differences that could make construction more burdensome or the effects of HPI growth on household growth.
+
+        \begin{table}[ht]
+            \centering
+            \makebox[\textwidth][c]{%
+                \begin{tabular}{lrrrrr}
+                    \toprule
+                    Term & Coefficient & SE & $p$-value & $R^2$ & $N$ \\
+                    \midrule
+                    Household growth & 0.163 & 0.030 & $<0.001$ & 0.663 & 4979 \\
+                    SF detached share & 0.135 & 0.049 & 0.005 & 0.663 & 4979 \\
+                    Household growth $\times$ SF share & -0.906 & 0.483 & 0.060 & 0.663 & 4979 \\
+                    \bottomrule
+                \end{tabular}
+            }
+            \caption{Fixed-effects regression of annual HPI growth.}
+            \label{tab:hpi-fixed-effects}
+        \end{table}
+
+        \begin{table}[ht]
+            \centering
+            \makebox[\textwidth][c]{%
+                \begin{tabular}{lrr}
+                    \toprule
+                    Model & $R^2$ & Variables' added $R^2$ \\
+                    \midrule
+                    Year FE             & 0.625 & -- \\
+                    Year FE + variables & 0.631 & 0.00595 \\
+                    Year + metro FE     & 0.658 & -- \\
+                    FE + variables      & 0.663 & 0.00459 \\
+                    \bottomrule
+                \end{tabular}
+            }
+            \caption{Comparison of model fit across fixed-effects specifications.}
+            \label{tab:hpi-model-fit}
+        \end{table}
+    \subsection*{Housing Unit Growth}
+        Household growth provides substantial explanatory power for housing-unit growth beyond common year effects. A model containing only year fixed effects has $R^2 = 0.0914$, while adding household growth raises $R^2$ to $0.300$. The partial $R^2$ of household growth is approximately $0.23$, indicating that household growth explains about 23\% of the variation remaining after accounting for year effects. Household growth is positively and statistically significantly associated with housing-unit growth: a 1 percentage-point increase in household growth is associated with approximately 0.234 percentage points of housing-unit growth (\autoref{tab:supply-table}). \\
+        At first glance, the imperfect relationship between household growth and housing-unit growth may seem surprising because $\text{Housing Units} = \text{Households}\,+\,\text{Vacant Units}$. However, vacancy can change independently, and additions to the housing stock reflect construction decisions made before the units are completed. Consequently, current housing-unit growth may respond to earlier expectations of household demand, prior vacancy conditions, and past household growth rather than only contemporaneous household growth. \\
+        Housing unit and household growth are both positively and significantly associated with HPI growth but offer very little compared to year fixed effects. Partial $R^2$ is only $2\%$ and their effect is low, 0.289 and 0.135, respectively. Partial $R^2$ conditional on household growth indicates housing unit growth contributes merely 0.6\%. Further, this does little to alleviate the omitted variable and reverse causality concerns of the former HPI and household growth model, and instead adds another potentially endogenous variable that also already has an accounting relationship with household growth.
+
+        \begin{table}[ht]
+        \centering
+        \makebox[\textwidth][c]{%
+            \begin{tabular}{llrrrrr}
+                \toprule
+                Model & Term & Coefficient & SE & $p$-value & $R^2$ & $N$ \\
+                \midrule
+                Supply response & household growth & 0.234 & 0.025 & $<0.001$ & 0.300 & 4979 \\
+                HPI with supply & household growth & 0.135 & 0.025 & $<0.001$ & 0.633 & 4979 \\
+                HPI with supply & housing unit growth & 0.289 & 0.077 & $<0.001$ & 0.633 & 4979 \\
+                \bottomrule
+            \end{tabular}%
+        }
+        \caption{Supply-response and HPI regressions.}
+        \label{tab:supply-table}
+        \end{table}
+
+    \subsection*{Lagged Vacancy}
+        Lagged vacancy rates provide substantially more information about subsequent household growth than the fixed effects alone. Let $V_{t-1}$ denote the vacancy rate one year prior to the household-growth observation and $V_{t-2}$ the rate two years prior. A model containing only year and metropolitan fixed effects has $R^2=0.126$. Adding $V_{t-1}$ raises $R^2$ to $0.294$, corresponding to a partial $R^2$ of $0.192$. By contrast, $V_{t-2}$ alone adds little explanatory power: its partial $R^2$ is only $0.003$, despite a positive coefficient of $0.069$ that is statistically significant at the 5\% level. \\
+        When both lags are included, $R^2$ rises to $0.325$ and the variables jointly have a partial $R^2$ of $0.228$ relative to the fixed-effects-only model. The coefficient on $V_{t-1}$ is positive, while that on $V_{t-2}$ becomes negative (\autoref{tab:lag-models}). Notice that consecutive vacancy rates are strongly related and have the relationship
+        \begin{equation*}
+            \Delta V_{t-1}=V_{t-1}-V_{t-2}
+        \end{equation*}
+        so this negative $V_{t-2}$ can be reparameterized to
+        \begin{align*}
+        \text{HH Growth}_{it} &= 0.689V_{i,t-1} -0.277V_{i,t-2} +\alpha_i+\lambda_t+\epsilon_{it} \\
+            &= 0.689\left(V_{i,t-2}+\Delta V_{i,t-1}\right) -0.277V_{i,t-2} +\alpha_i+\lambda_t+\epsilon_{it} \\
+            &= 0.412V_{i,t-2} +0.689\Delta V_{i,t-1} +\alpha_i+\lambda_t+\epsilon_{it}
+        \end{align*}
+        The full vacancy specification has a partial $R^2$ of $0.228$ relative to the fixed effects baseline. After trimming the outer 1\% of the vacancy change and household growth distributions, the partial $R^2$ declines to $0.196$. The estimated coefficients also fall moderately, but the qualitative relationship remains similar, suggesting that the result is not driven solely by extreme observations (\autoref{tab:lag-trim}).
+        \begin{table}[ht]
+            \centering
+            \begin{tabular}{lrrrrrr}
+                \toprule
+                Specification
+                 & Lag 1 & Lag 2 & $p_1$ & $p_2$ & $R^2$ & Partial $R^2$ \\
+                \midrule
+                Lag 1 only & 0.553 & -- & $<0.001$ & -- & 0.294 & 0.192 \\
+                 & (0.082) & & & & \\
+                Lag 2 only & -- & 0.069 & -- & 0.034 & 0.129 & 0.003 \\
+                 & & (0.033) & & & \\
+                Both lags & 0.689 & -0.277 & $<0.001$ & $<0.001$ & 0.325 & 0.228 \\
+                 & (0.052) & (0.053) & & & \\
+                \bottomrule
+            \end{tabular}
+            \caption{Lagged vacancy and subsequent household growth. Standard errors,
+            clustered by metropolitan area, are reported in parentheses. All specifications
+            include year and metropolitan-area fixed effects on $n=2827$.}
+            \label{tab:lag-models}
+        \end{table}
+        
+        \begin{table}[ht]
+            \centering
+            \begin{tabular}{lrrr}
+                \toprule
+                Sample & Older vacancy level & Vacancy change & $N$ \\
+                \midrule
+                Full & 0.412 & 0.689 & 2827 \\
+                 & (0.082) & (0.052) & \\
+                1\% trimmed & 0.371 & 0.609 & 2720 \\
+                 & (0.077) & (0.047) & \\
+                \bottomrule
+            \end{tabular}
+            \caption{Robustness of the full specification to trimming the
+            outer 1\% of the vacancy-change and household-growth distributions.}
+            \label{tab:lag-trim}
+        \end{table}
+\end{document}
