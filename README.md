@@ -4,7 +4,7 @@
 
 This project studies annual house-price growth across U.S. metropolitan areas from 2005 through 2024. It asks how house-price appreciation relates to household growth, the composition of the existing housing stock, housing-unit growth, and lagged vacancy.
 
-The analysis is descriptive rather than causal. In particular, household formation, construction, vacancy, and house prices can all affect one another; the regressions therefore document conditional associations, not the effects of a policy intervention.
+The analysis is descriptive rather than causal. In particular, household formation, construction, vacancy, and house prices can all affect one another; the regressions therefore document conditional associations.
 
 ## Data used in the report
 
