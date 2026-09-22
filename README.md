@@ -1,87 +1,46 @@
-# Housing returns project
+# Metro housing growth and returns
 
-The project currently combines three compatible-but-distinct datasets:
+[Read the report (PDF)](housing.pdf) · [View the analysis notebook](notebooks/housing_analysis.ipynb)
 
-| Dataset | Unit | Role | Join key |
-| --- | --- | --- | --- |
-| FHFA metro HPI | Metro-quarter | House-price outcome | `cbsa` |
-| ACS 1-year | CBSA-year | Household demand and household income | `cbsa` |
-| OEWS/BLS | Metro-year | Labor-market context | `AREA` / CBSA after validation |
+This project studies annual house-price growth across U.S. metropolitan areas from 2005 through 2024. It asks how house-price appreciation relates to household growth, the composition of the existing housing stock, housing-unit growth, and lagged vacancy.
 
-## Layout
+The analysis is descriptive rather than causal. In particular, household formation, construction, vacancy, and house prices can all affect one another; the regressions therefore document conditional associations, not the effects of a policy intervention.
 
-- `notebooks/`: the clean, output-free [analysis notebook](notebooks/housing_analysis.ipynb)
-- `data/raw/`: active raw FHFA inputs
-- `data/derived/`: compiled ACS and BLS analysis datasets
-- `outputs/`: saved figures and diagnostics
-- `archive/`: the original notebook and raw or duplicate downloads retained for reference
-- `src/`: repeatable ACS loaders
+## Data used in the report
 
-The old notebook is preserved at `archive/notebooks/Untitled_before_cleanup.ipynb`.
+- **FHFA All-Transactions House Price Index:** quarterly metropolitan HPI observations are averaged to annual values, and annual HPI growth is calculated within each metro.
+- **American Community Survey (ACS) 1-year detailed tables:** metro-level estimates of occupied households, housing units, occupancy, structure type, and vacancy. The active extract is [`data/derived/acs_market_panel_2005_2024.csv`](data/derived/acs_market_panel_2005_2024.csv).
 
-## Household panel
+The sample is restricted to metropolitan statistical areas, which matches the FHFA geography. For metros that FHFA also reports as metropolitan divisions, the MSA HPI series is retained for geographic consistency with the ACS.
 
-Run the ACS loader from the project root:
+## Comparability rules
 
-```powershell
-$env:CENSUS_API_KEY = "your Census Data API key"
-.\.venv\Scripts\python.exe src\build_acs_household_panel.py
-```
+- **2020:** excluded because standard ACS 1-year estimates were not released.
+- **2010, 2013, 2019, and 2023:** growth calculations that cross these ACS population-control or CBSA-delineation transitions are excluded.
+- **Annual HPI:** calculated as the mean of quarterly FHFA index values; annual growth is the within-metro percent change.
 
-The Census API currently requires an API key. The key is read only from the
-`CENSUS_API_KEY` environment variable and is never written into the project.
+## Analyses
 
-It writes `data/derived/acs_household_panel_2005_2024.csv`, with one row per CBSA-year.
-The measures are:
+The notebook estimates fixed-effects regressions with year and, where noted, metro fixed effects. It covers:
 
-- `households`: total households (`B11001_001E`)
-- `median_household_income`: household median income (`B19013_001E`)
-- `household_income_p20` through `household_income_p80`: the upper limits of the first through fourth household-income quintiles (`B19080`)
+1. HPI growth, household growth, detached single-family share, and their interaction.
+2. The relationship between household growth and housing-unit growth, plus the incremental fit of housing-unit growth in an HPI model.
+3. Whether one- and two-year lagged vacancy rates predict subsequent household growth, including a reparameterization in terms of older vacancy levels and vacancy change, and a 1% trimmed robustness check.
 
-The 2020 ACS 1-year release is intentionally omitted: it was not published due to pandemic collection disruptions. The loader does not fill that gap or substitute ACS 5-year estimates, because that would mix annual and multi-year measures in the same panel.
+The report presents the full estimates and fit comparisons, including incremental and partial $R^2$ measures. The notebook is the reproducible source for the reported tables and exploratory figures.
 
-The 2005 ACS 1-year detailed tables do not include `B19080`, so that year is
-retained with `households` and `median_household_income`, while its four
-income-percentile columns are missing.
+## Repository layout
 
-ACS 1-year estimates cover qualifying geographies, so some smaller CBSAs will be absent. Keep that selection issue visible when merging to the broader FHFA panel.
+- [`housing.pdf`](housing.pdf): concise written report.
+- [`housing.tex`](housing.tex): report source.
+- [`notebooks/housing_analysis.ipynb`](notebooks/housing_analysis.ipynb): data preparation, exploration, and regression analysis.
+- [`data/raw/fhfa/`](data/raw/fhfa): FHFA inputs used by the notebook.
+- [`data/derived/`](data/derived): prepared ACS panel and supporting extracts.
+- [`src/`](src): Census ACS extraction scripts.
+- [`outputs/`](outputs): saved figures and diagnostics.
 
-The household-income columns are nominal dollars. Deflate them before comparing income levels across years; use nominal year-over-year changes only when that is the explicit question.
+Some supplementary extracts remain in `data/derived/` from exploratory work; they are not inputs to the report unless referenced by the notebook. The local `archive/` folder and virtual environment are intentionally excluded from the public repository.
 
-## Household composition and housing stock
+## Reproducing the analysis
 
-Run the complementary market-structure loader with the same API key:
-
-```powershell
-.\.venv\Scripts\python.exe src\build_acs_market_panel.py
-```
-
-It writes `data/derived/acs_market_panel_2005_2024.csv`. It contains the full B19001
-household-income-bin distribution, housing-unit counts and structure types,
-vacancy, and owner/renter household counts by householder age. Its derived
-fields include the share of households aged 25–44, the corresponding owner and
-renter counts, detached-single-family share, 5+-unit multifamily share, and
-vacancy rate.
-
-S2501 is useful for selected descriptive cuts but has no 2005 ACS 1-year
-release and does not provide one clean total-household age distribution. The
-panel uses B25007 instead, which directly separates owner and renter households
-by age and is available for the full working period. DP02 is similarly not
-included because its broad social-profile fields duplicate less directly
-interpretable detailed-table measures.
-
-A small number of CBSA-year observations have suppressed `B25024` structure
-counts, so their detached and multifamily shares remain missing rather than
-being imputed. All other core count and age-composition fields are retained.
-
-## B19037 age-of-householder extract
-
-```powershell
-.\.venv\Scripts\python.exe src\build_acs_b19037_age_households.py
-```
-
-This writes `data/derived/acs_b19037_age_households_2005_2024.csv` in long form with
-exactly `metro`, `year`, `age_bracket`, and `households` columns. The brackets
-are `under_25`, `25_44`, `45_64`, and `65_plus`; each is the parent total from
-B19037, not a sum of reported income cells. As with the other ACS 1-year
-outputs, 2020 is omitted.
+Open and run [`notebooks/housing_analysis.ipynb`](notebooks/housing_analysis.ipynb) from the project root. The committed FHFA and prepared ACS inputs are sufficient for the current notebook. Rebuilding ACS source extracts requires a Census API key supplied through the `CENSUS_API_KEY` environment variable; no key is stored in this repository.
