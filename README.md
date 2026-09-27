@@ -31,7 +31,7 @@ The report presents the full estimates and fit comparisons, including incrementa
 
 ## Repository layout
 
-- [`housing.pdf`](housing.pdf): concise written report.
+- [`housing.pdf`](housing.pdf): written report.
 - [`housing.tex`](housing.tex): report source.
 - [`notebooks/housing_analysis.ipynb`](notebooks/housing_analysis.ipynb): data preparation, exploration, and regression analysis.
 - [`data/raw/fhfa/`](data/raw/fhfa): FHFA inputs used by the notebook.
@@ -39,7 +39,7 @@ The report presents the full estimates and fit comparisons, including incrementa
 - [`src/`](src): Census ACS extraction scripts.
 - [`outputs/`](outputs): saved figures and diagnostics.
 
-Some supplementary extracts remain in `data/derived/` from exploratory work; they are not inputs to the report unless referenced by the notebook. The local `archive/` folder and virtual environment are intentionally excluded from the public repository.
+Some supplementary extracts remain in `data/derived/` from exploratory work; they are not inputs to the report unless referenced by the notebook.
 
 ## Reproducing the analysis
 
