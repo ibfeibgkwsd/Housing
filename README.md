@@ -1,4 +1,4 @@
-# Metro housing growth and returns
+# Metro housing growth
 
 [Read the report (PDF)](housing.pdf) · [View the analysis notebook](notebooks/housing_analysis.ipynb)
 
